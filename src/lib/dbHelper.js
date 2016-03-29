@@ -3,15 +3,15 @@
  */
 
 import mysql from 'mysql';
-import config from '../../configuration/config';
+import nconf from 'nconf';
 
 let pool = mysql.createPool({
     connectionLimit: 100, //important
-    host: config.database.host,
-    port: config.database.port,
-    user: config.database.user,
-    password: config.database.password,
-    database: config.database.database,
+    host: nconf.get('database:host'),
+    port: nconf.get('database:port'),
+    user: nconf.get('database:user'),
+    password: nconf.get('database:password'),
+    database: nconf.get('database:database'),
     debug: false
 });
 

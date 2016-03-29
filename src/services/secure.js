@@ -34,7 +34,7 @@ class Secure {
             yield dbHelper.openConnection();
             let sql = 'SELECT UserName, Password FROM User WHERE UserName = ? limit 1';
             let user = yield  dbHelper.runQuery(sql, [userName]);
-            if (user.length == 0) {
+                if (user.length == 0) {
                 throw({AppCode: 'MSG_ERR_USER_AUTHENTICATION_FAIL'});
             }
             dbHelper.closeConnection();

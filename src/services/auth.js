@@ -9,7 +9,7 @@ import passport from 'passport';
 let router = express.Router();
 
 router.get('/test', (req, res)=> {
-    res.send('hello');
+    res.send('hello demo');
 });
 
 router.post('/login', (req, res, next)=> {

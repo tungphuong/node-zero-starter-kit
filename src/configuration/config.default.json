@@ -3,10 +3,10 @@
     "port": 3001
   },
   "database": {
-    "host": "192.168.99.100",
+    "host": "",
     "port": 3306,
-    "user": "root",
-    "password": "123456",
+    "user": "",
+    "password": "",
     "database": "StarterKit"
   }
 }

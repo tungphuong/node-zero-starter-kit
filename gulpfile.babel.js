@@ -7,6 +7,7 @@ import server from 'gulp-live-server';
 
 const paths = {
     js: ['./src/**/*.js'],
+    config:['./src/configuration/*.json'],
     dest: './app'
 };
 
@@ -19,7 +20,21 @@ gulp.task('default', (cb)=> {
 // });
 
 gulp.task('build', (cb)=> {
-    run('clean', 'babel' ,'restart', cb);
+    run('clean', 'copy', 'babel' ,'restart', cb);
+});
+
+gulp.task('copy', (cb)=> {
+    run('copy-package', 'copy-configuration', cb);
+});
+
+gulp.task('copy-configuration', ()=>{
+    return gulp.src(paths.config)
+        .pipe(gulp.dest(paths.dest + '/configuration/'));
+});
+
+gulp.task('copy-package', ()=>{
+    return gulp.src(['./*.json'])
+        .pipe(gulp.dest(paths.dest));
 });
 
 gulp.task('clean', cb=> {
@@ -37,7 +52,8 @@ gulp.task('babel', shell.task([
 let express;
 
 gulp.task('server', ()=> {
-    express = server.new('./app/index.js');
+    //express = server.new('./app/index.js');
+    express = server('./app/index.js', {env: {NODE_ENV: 'dev'}});
 });
 
 gulp.task('restart', ()=> {
