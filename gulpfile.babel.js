@@ -1,59 +1,38 @@
 import gulp from 'gulp';
-import shell from 'gulp-shell';
 import rimraf from 'rimraf';
 import run from 'run-sequence';
 import watch from 'gulp-watch';
 import server from 'gulp-live-server';
+import gulpbabel from 'gulp-babel';
 
 const paths = {
-    js: ['./src/**/*.js'],
-    config:['./src/configuration/*.json'],
-    dest: './app'
+    src: ['./src/**/*.js'],
+    dest: './dist'
 };
 
 gulp.task('default', (cb)=> {
     run('server', 'build', 'watch', cb);
 });
 
-// gulp.task('build', (cb)=>{
-//    run('clean', 'flow', 'babel', 'restart', cb); 
-// });
-
 gulp.task('build', (cb)=> {
-    run('clean', 'copy', 'babel' ,'restart', cb);
+    run('build:clean', 'build:babel' ,'restart', cb);
 });
 
-gulp.task('copy', (cb)=> {
-    run('copy-package', 'copy-configuration', cb);
-});
 
-gulp.task('copy-configuration', ()=>{
-    return gulp.src(paths.config)
-        .pipe(gulp.dest(paths.dest + '/configuration/'));
-});
-
-gulp.task('copy-package', ()=>{
-    return gulp.src(['./*.json'])
-        .pipe(gulp.dest(paths.dest));
-});
-
-gulp.task('clean', cb=> {
+gulp.task('build:clean', cb=> {
     rimraf(paths.dest, cb);
 })
 
-// gulp.task('flow', shell.task([
-//     'flow'
-// ]),{ignoreErrors: true});
-
-gulp.task('babel', shell.task([
-    'babel src --out-dir app'
-]));
+gulp.task('build:babel', () => {
+    return gulp.src(paths.src)
+        .pipe(gulpbabel())
+        .pipe(gulp.dest(paths.dest));
+});
 
 let express;
 
 gulp.task('server', ()=> {
-    //express = server.new('./app/index.js');
-    express = server('./app/index.js', {env: {NODE_ENV: 'dev'}});
+    express = server(paths.dest + '/server/server.js', {env: {NODE_ENV: 'dev'}});
 });
 
 gulp.task('restart', ()=> {
@@ -61,7 +40,23 @@ gulp.task('restart', ()=> {
 });
 
 gulp.task('watch', ()=> {
-    return watch(paths.js, () => {
-        gulp.start('build');
-    });
+    return gulp.watch(paths.src,['build']);
 });
+
+
+
+/*
+
+gulp.task('build:copy', (cb)=> {
+    run('build:copy-package', 'build:copy-configuration', cb);
+});
+
+gulp.task('build:copy-configuration', ()=>{
+    return gulp.src(paths.config)
+        .pipe(gulp.dest(paths.dest + '/configuration/'));
+});
+
+gulp.task('build:copy-package', ()=>{
+    return gulp.src(['./!*.json'])
+        .pipe(gulp.dest(paths.dest));
+});*/
