@@ -33,9 +33,12 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-live-server": "0.0.29",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-typescript": "^2.12.1",
     "gulp-watch": "^4.3.5",
     "rimraf": "^2.5.2",
-    "run-sequence": "^1.1.5"
+    "run-sequence": "^1.1.5",
+    "typings": "^0.7.9"
   },
   "dependencies": {
     "body-parser": "^1.15.0",
@@ -46,6 +49,12 @@
     "mysql": "^2.10.2",
     "nconf": "^0.8.4",
     "passport": "^0.3.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "angular2": "2.0.0-beta.12",
+    "systemjs": "0.19.24",
+    "es6-shim": "^0.35.0",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "0.6.6"
   }
 }

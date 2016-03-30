@@ -22,7 +22,14 @@ app.use(morgan('combined'))
 
 secure.setup(app);
 
+app.use('/app', express.static(path.resolve('dist/app')));
+app.use('/libs', express.static(path.resolve('dist/libs')));
 
+var renderIndex = (req, res) => {
+    res.sendFile(path.resolve('dist/index.html'));
+}
+
+app.get('/*', renderIndex);
 app.use('/api/auth', auth);
 
 export default app;
