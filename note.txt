@@ -1,3 +1,5 @@
+//ghe ghe
+
 npm install flow-bin -g
 
 npm install --save-dev babel-cli babel-plugin-transform-flow-strip-types babel-core babel-register babel-preset-es2015 babel-preset-stage-0 gulp gulp-live-server gulp-shell gulp-watch rimraf run-sequence
