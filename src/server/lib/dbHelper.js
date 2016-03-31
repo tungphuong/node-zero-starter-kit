@@ -1,54 +1,55 @@
 import mysql from 'mysql';
 import configHelper from '../../shared/confighelper';
 
+let pool = mysql.createPool({
+  connectionLimit: 100, //important
+  host: nconf.get('database:host'),
+  port: nconf.get('database:port'),
+  user: nconf.get('database:user'),
+  password: nconf.get('database:password'),
+  database: nconf.get('database:database'),
+  debug: false
+});
+
 class dbHelper {
-  pool;
-
   constructor() {
-    this.pool = mysql.createPool({
-      connectionLimit: 100, //important
-      host: configHelper.db_host,
-      port: configHelper.db_port,
-      user: configHelper.db_user,
-      password: configHelper.db_password,
-      database: configHelper.db_databasename,
-      debug: false
-    });
-
     this.client = null;
   }
 
   openConnection() {
     let that = this;
     return new Promise((resolve, reject)=> {
-      that.pool.getConnection((err, conn)=> {
-        if (err) {
-          console.log(err);
-          reject(err);
-        } else {
+      pool.getConnection((err, conn)=> {
+        if (!err) {
           resolve(conn);
           that.client = conn;
+        }
+        else {
+          reject(err);
         }
       });
     });
   }
 
   closeConnection() {
-    this.client.destroy();
+    this.client.release();
   }
 
   runQuery(sql, params) {
     let that = this;
     return new Promise((resolve, reject)=> {
-      let query;
-      query = that.client.query(sql, params, (err, result)=> {
+      let query = that.client.query(sql, params, (err, result)=> {
         if (!err) {
           resolve(result);
-        } else {
+        }
+        else {
           reject(err);
         }
       });
-      console.log(query.sql);
+
+      //TODO: temporary return query until we have a real implementation
+      // console.log(query.sql);
+      return query;
     });
   }
 
