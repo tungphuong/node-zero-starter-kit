@@ -1,0 +1,12 @@
+{
+  "webserver": {
+    "port": 3003
+  },
+  "database": {
+    "host": "starterkit.cloudapp.net",
+    "port": 32768,
+    "user": "root",
+    "password": "dockerlab@123",
+    "database": "starterkit_db"
+  }
+}
