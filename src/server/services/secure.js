@@ -3,6 +3,7 @@ import localStrategy from 'passport-local'
 import co from 'co'
 import dbHelper from '../lib/dbHelper';
 import _ from 'lodash';
+import cryptoHelper from '../../shared/cryptohelper';
 
 let Strategy = localStrategy.Strategy;
 
@@ -24,9 +25,25 @@ class Secure {
     }));
   }
 
-  checkAuth(req, res){
-    co(function* () {
-      throw({AppCode: 'No Valid Token'});
+  checkAuth(req, res, next) {
+    //noinspection JSUnresolvedFunction
+    co(function*() {
+      let token = (req.body && req.body.AccessToken) ||
+        (req.query && req.query.AccessToken) ||
+        req.headers['x-access-token'] ||
+        req.headers['authorization'] ||
+        req.headers['Authorization'] ||
+        req.headers['access-token'];
+      let decoToken;
+      if (token) {
+        decoToken = cryptoHelper.decodeJwtToken(token);
+      }
+      if (decoToken != null) {
+          return next();
+      }
+      else {
+        throw({AppCode: 'No Valid Token'});
+      }
     }).catch(err => {
       return res.status(401).json(err);
     });
