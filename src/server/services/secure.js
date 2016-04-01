@@ -1,7 +1,3 @@
-/**
- * Created by tungp on 24/03/16.
- */
-"use strict";
 import passport from 'passport';
 import localStrategy from 'passport-local'
 import co from 'co'
