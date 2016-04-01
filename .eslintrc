@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "eslint:recommended"
+  ],
+  "rules": {
+    "semi": 2,
+    "strict": [2, "global"]
+  },
+  "plugins": [
+    "angular"
+  ],
+  "settings": {
+    "angular": 2
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  }
+}

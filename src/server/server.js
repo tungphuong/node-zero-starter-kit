@@ -1,10 +1,8 @@
-"use strict";
 import "babel-polyfill";
-import configHelper from '../shared/confighelper';
-import app from './services/main'
+import nconf from 'nconf';
+import app from './services/main';
+import chalk from 'chalk';
 
-console.log(process.env.NODE_ENV);
-
-let server = app.listen(configHelper.webserver_port || 5000, ()=> {
-  console.log(`Listening on port ${server.address().port}`);
+let server = app.listen(nconf.get('webserver:port') || 5000, ()=> {
+  chalk.red.bgWhite(`Listening on port ${server.address().port}`);
 });

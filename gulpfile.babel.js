@@ -22,10 +22,10 @@ const jsNPMDependencies = [
   'rxjs/bundles/Rx.js',
   'angular2/bundles/angular2.dev.js',
   'angular2/bundles/router.dev.js'
-]
+];
 
 gulp.task('default', (cb)=> {
-  run('server', 'build', 'watch', cb);
+    run('server', 'build', 'watch', cb);
 });
 
 gulp.task('build', (cb)=> {
@@ -35,15 +35,15 @@ gulp.task('build', (cb)=> {
 gulp.task('build:index', function () {
   var mappedPaths = jsNPMDependencies.map(file => {
     return path.resolve('node_modules', file)
-  })
+  });
 
   //Let's copy our head dependencies into a dist/libs
   var copyJsNPMDependencies = gulp.src(mappedPaths, {base: 'node_modules'})
-    .pipe(gulp.dest('dist/libs'))
+    .pipe(gulp.dest('dist/libs'));
 
   //Let's copy our index into dist
   var copyIndex = gulp.src('src/client/index.html')
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist'));
   return [copyJsNPMDependencies, copyIndex];
 });
 
@@ -52,7 +52,7 @@ gulp.task('build:app', function () {
   var tsProject = ts.createProject('./tsconfig.json');
   var tsResult = gulp.src('src/client/**/*.ts')
     .pipe(sourcemaps.init())
-    .pipe(ts(tsProject))
+    .pipe(ts(tsProject));
   return tsResult.js
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('dist/app'));
@@ -60,25 +60,25 @@ gulp.task('build:app', function () {
 
 gulp.task('build:clean', cb=> {
   rimraf(paths.dest, cb);
-})
+});
 
 gulp.task('build:babel', () => {
-  return gulp.src(paths.src + '/**/*.js')
-    .pipe(gulpbabel())
-    .pipe(gulp.dest(paths.dest));
+    return gulp.src(paths.src + '/**/*.js')
+        .pipe(gulpbabel())
+        .pipe(gulp.dest(paths.dest));
 });
 
 let express;
 
 gulp.task('server', ()=> {
-  express = server(paths.dest + '/server/server.js', {env: {NODE_ENV: 'dev'}});
+    express = server(paths.dest + '/server/server.js', {env: {NODE_ENV: 'dev'}});
 });
 
 gulp.task('restart', ()=> {
-  express.start.bind(express)();
+    express.start.bind(express)();
 });
 
 gulp.task('watch', ()=> {
-  return gulp.watch(paths.src + '/**/*.*', ['build']);
+    return gulp.watch(paths.src + '/**/*.*', ['build']);
 });
 
