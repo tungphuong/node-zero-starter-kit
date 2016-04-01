@@ -4,5 +4,5 @@ import app from './services/main';
 import chalk from 'chalk';
 
 let server = app.listen(nconf.get('webserver:port') || 5000, ()=> {
-  chalk.red.bgWhite(`Listening on port ${server.address().port}`);
+  console.log(chalk.red.bgWhite.bold(`Listening on port ${server.address().port}`));
 });
