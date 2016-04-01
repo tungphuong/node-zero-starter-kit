@@ -36,6 +36,10 @@ class ConfigHelper {
   get webserver_port() {
     return nconf.get('webserver:port');
   }
+
+  get jwtSecret() {
+    return nconf.get('jwtSecret');
+  }
 }
 
 export default new ConfigHelper();

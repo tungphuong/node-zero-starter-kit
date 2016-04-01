@@ -5,6 +5,7 @@ import secure from './secure';
 import nconf from 'nconf';
 import path from 'path';
 import morgan from 'morgan';
+import user from './user';
 
 let app = express();
 
@@ -23,11 +24,13 @@ secure.setup(app);
 app.use('/app', express.static(path.resolve('dist/app')));
 app.use('/libs', express.static(path.resolve('dist/libs')));
 
-var renderIndex = (req, res) => {
-  res.sendFile(path.resolve('dist/index.html'));
-};
 
-app.get('/*', renderIndex);
 app.use('/api/auth', auth);
+app.use('/api/user', user);
+
+app.get('/*', (req, res)=>{
+  res.sendFile(path.resolve('dist/index.html'));
+});
+
 
 export default app;

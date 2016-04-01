@@ -28,6 +28,14 @@ class Secure {
     }));
   }
 
+  checkAuth(req, res){
+    co(function* () {
+      throw({AppCode: 'No Valid Token'});
+    }).catch(err => {
+      return res.status(401).json(err);
+    });
+  }
+
   _login(userName, password) {
     return co(function* login() {
       yield dbHelper.openConnection();

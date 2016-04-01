@@ -1,11 +1,10 @@
 import express from 'express';
 import passport from 'passport';
+import cryptoHelper from '../../shared/cryptohelper';
 
 let router = express.Router();
 
-router.get('/test', (req, res)=> {
-  res.send('hello demo');
-});
+
 
 router.post('/login', (req, res, next)=> {
   passport.authenticate('local', (err, user, info)=> {
@@ -13,7 +12,15 @@ router.post('/login', (req, res, next)=> {
     if (error) {
       res.status(500).json(error);
     }
-    res.json(user);
+    
+    let jwtToken = cryptoHelper.createJWTToken({
+      UserName: user.UserName
+    });
+
+    res.json({
+      Token: jwtToken,
+      UserName: user.UserName
+    });
   })(req, res, next);
 });
 
