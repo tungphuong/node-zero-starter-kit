@@ -1,8 +1,8 @@
 import "babel-polyfill";
 import nconf from 'nconf';
 import app from './services/main';
-import chalk from 'chalk';
+import util from '../shared/utilhelper';
 
 let server = app.listen(nconf.get('webserver:port') || 5000, ()=> {
-  console.log(chalk.red.bgWhite.bold(`Listening on port ${server.address().port}`));
+  util.getLogger().log('debug',`Listening on port ${server.address().port}`);
 });

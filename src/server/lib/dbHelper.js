@@ -1,9 +1,8 @@
 import mysql from 'mysql';
 import configHelper from '../../shared/confighelper';
+import util from '../../shared/utilhelper';
 
 class dbHelper {
-  pool;
-
   constructor() {
     this.pool = mysql.createPool({
       connectionLimit: 100, //important
@@ -23,7 +22,7 @@ class dbHelper {
     return new Promise((resolve, reject)=> {
       that.pool.getConnection((err, conn)=> {
         if (err) {
-          console.log(err);
+          util.getLogger().debug(err);
           reject(err);
         } else {
           resolve(conn);
@@ -48,7 +47,7 @@ class dbHelper {
           reject(err);
         }
       });
-      console.log(query.sql);
+      util.getLogger().debug(query.sql);
     });
   }
 

@@ -4,22 +4,18 @@ import cryptoHelper from '../../shared/cryptohelper';
 
 let router = express.Router();
 
-
-
 router.post('/login', (req, res, next)=> {
   passport.authenticate('local', (err, user, info)=> {
     let error = err || info;
     if (error) {
       res.status(500).json(error);
     }
-    
     let jwtToken = cryptoHelper.createJWTToken({
-      UserName: user.UserName
+      username: user.username
     });
-
     res.json({
-      Token: jwtToken,
-      UserName: user.UserName
+      token: jwtToken,
+      username: user.username
     });
   })(req, res, next);
 });

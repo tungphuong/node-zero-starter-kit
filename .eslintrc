@@ -4,7 +4,10 @@
   ],
   "rules": {
     "semi": 2,
-    "strict": [2, "global"]
+    "strict": [
+      2,
+      "global"
+    ]
   },
   "plugins": [
     "angular"
@@ -15,5 +18,10 @@
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module"
+  },
+  "globals": {
+    "Promise": true,
+    "__dirname": true,
+    "process": true
   }
 }

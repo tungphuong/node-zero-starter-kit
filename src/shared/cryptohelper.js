@@ -1,10 +1,10 @@
-//import crypto from 'crypto';
+import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
-import configHelper from './confighelper'
+import configHelper from './confighelper';
 
 class CryptoHelper {
   createJWTToken(objIn) {
-    return jwt.sign(objIn, configHelper.jwtSecret, {expiresIn: 60 * 60});
+    return jwt.sign(objIn, configHelper.jwtSecret, {expiresIn: 60});
   }
 
   decodeJwtToken(token) {
@@ -14,6 +14,14 @@ class CryptoHelper {
     catch(err) {
       return null;
     }
+  }
+  
+  createSalt(){
+    return crypto.randomBytes(16).toString('base64');
+  }
+
+  createHash(clearText, salt){
+    return crypto.pbkdf2Sync(clearText, salt, 4096, 64).toString('base64');
   }
 }
 
