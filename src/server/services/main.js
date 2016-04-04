@@ -6,6 +6,8 @@ import nconf from 'nconf';
 import path from 'path';
 import morgan from 'morgan';
 import user from './user';
+import util from '../../shared/utilhelper';
+import cluster from 'cluster';
 
 let app = express();
 
@@ -24,6 +26,10 @@ secure.setup(app);
 app.use('/app', express.static(path.resolve('dist/app')));
 app.use('/libs', express.static(path.resolve('dist/libs')));
 
+app.use((req, res, next)=>{
+  util.getLogger().log('info', `Cluster ${cluster.worker.process.pid} responsed.`);
+  next();
+});
 
 app.use('/api/auth', auth);
 app.use('/api/user', user);

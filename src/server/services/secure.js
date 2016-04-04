@@ -37,7 +37,7 @@ class Secure {
       let decoToken;
       if (token) {
         if(_.startsWith(token, 'Bearer ')){
-          token= _.replace(token, 'Bearer ', '')
+          token= _.replace(token, 'Bearer ', '');
         }
         decoToken = cryptoHelper.decodeJwtToken(token);
       }
@@ -45,7 +45,7 @@ class Secure {
           return next();
       }
       else {
-        throw({AppCode: 'No Valid Token'});
+        throw({AppCode: 'MSG_ERR_NO_VALID_TOKEN'});
       }
     }).catch(err => {
       return res.status(401).json(err);
