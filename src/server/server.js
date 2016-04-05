@@ -1,5 +1,5 @@
 import "babel-polyfill";
-import nconf from 'nconf';
+import configHelper from '../shared/confighelper';
 import app from './services/main';
 import util from '../shared/utilhelper';
 import cluster from 'cluster';
@@ -19,7 +19,7 @@ if (cluster.isMaster) {
   });
 }
 else if (cluster.isWorker) {
-  let port = nconf.get('webserver:port') || 5000;
+  let port = configHelper.webserver_port || 5000;
   app.listen(port, ()=> {
     util.getLogger().log('info', `worker ${cluster.worker.process.pid} is now listening on port ${port}`);
   });
