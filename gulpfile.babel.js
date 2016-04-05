@@ -7,10 +7,12 @@ import gulpbabel from 'gulp-babel';
 import path from  'path';
 import ts from 'gulp-typescript';
 import sourcemaps from  'gulp-sourcemaps';
+import env from 'gulp-env';
+import mocha from 'gulp-mocha';
 
 const paths = {
   src: ['./src'],
-  dest: './dist'
+  dist: './dist'
 };
 
 /*
@@ -31,6 +33,16 @@ gulp.task('default', (cb)=> {
 gulp.task('build', (cb)=> {
   run('build:clean', 'build:babel', 'build:index', 'build:app', 'restart', cb);
 });
+
+gulp.task('test', ()=>{
+  const envs = env.set({
+    NODE_ENV: 'test'
+  });
+  return gulp.src(paths.src + '/test/*.js', {read:false})
+    .pipe(envs)
+    .pipe(gulpbabel())
+    .pipe(mocha());
+})
 
 gulp.task('build:index', function () {
   var mappedPaths = jsNPMDependencies.map(file => {
@@ -59,19 +71,19 @@ gulp.task('build:app', function () {
 });
 
 gulp.task('build:clean', cb=> {
-  rimraf(paths.dest, cb);
+  rimraf(paths.dist, cb);
 });
 
 gulp.task('build:babel', () => {
-    return gulp.src(paths.src + '/**/*.js')
+    return gulp.src([paths.src + '/**/*.js', '!./test/**'])
         .pipe(gulpbabel())
-        .pipe(gulp.dest(paths.dest));
+        .pipe(gulp.dest(paths.dist));
 });
 
 let express;
 
 gulp.task('server', ()=> {
-    express = server(paths.dest + '/server/server.js', {env: {NODE_ENV: 'dev'}});
+    express = server(paths.dist + '/server/server.js', {env: {NODE_ENV: 'dev'}});
 });
 
 gulp.task('restart', ()=> {
@@ -81,4 +93,3 @@ gulp.task('restart', ()=> {
 gulp.task('watch', ()=> {
     return gulp.watch(paths.src + '/**/*.*', ['build']);
 });
-

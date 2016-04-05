@@ -18,15 +18,15 @@ class dbHelper {
   }
 
   openConnection() {
-    let that = this;
     return new Promise((resolve, reject)=> {
-      that.pool.getConnection((err, conn)=> {
+      this.pool.getConnection((err, conn)=> {
         if (err) {
           util.getLogger().debug(err);
+          console.log(err);
           reject(err);
         } else {
           resolve(conn);
-          that.client = conn;
+          this.client = conn;
         }
       });
     });
@@ -37,13 +37,13 @@ class dbHelper {
   }
 
   runQuery(sql, params) {
-    let that = this;
     return new Promise((resolve, reject)=> {
       let query;
-      query = that.client.query(sql, params, (err, result)=> {
+      query = this.client.query(sql, params, (err, result)=> {
         if (!err) {
           resolve(result);
         } else {
+          console.log(err);
           reject(err);
         }
       });
