@@ -27,11 +27,15 @@ const jsNPMDependencies = [
 ];
 
 gulp.task('default', (cb)=> {
-    run('server', 'build', 'watch', cb);
+    run('server', 'build:dev', 'watch', cb);
 });
 
-gulp.task('build', (cb)=> {
+gulp.task('build:dev', (cb)=> {
   run('build:clean', 'build:babel', 'build:index', 'build:app', 'restart', cb);
+});
+
+gulp.task('build:release', (cb)=> {
+  run('build:clean', 'build:babel', 'build:index', 'build:app', cb);
 });
 
 gulp.task('test', ()=>{
