@@ -31,11 +31,11 @@ gulp.task('default', (cb)=> {
 });
 
 gulp.task('build:dev', (cb)=> {
-  run('build:clean', 'build:babel', 'build:index', 'build:app', 'restart', cb);
+  run('build:clean', 'build:babel', 'build:index', 'build:assest', 'build:app', 'restart', cb);
 });
 
 gulp.task('build:release', (cb)=> {
-  run('build:clean', 'build:babel', 'build:index', 'build:app', cb);
+  run('build:clean', 'build:babel', 'build:index', 'build:assest', 'build:app', cb);
 });
 
 gulp.task('test', ()=>{
@@ -58,9 +58,20 @@ gulp.task('build:index', function () {
     .pipe(gulp.dest('dist/libs'));
 
   //Let's copy our index into dist
-  var copyIndex = gulp.src('src/client/index.html')
+  var copyIndex = gulp.src(['src/client/index.html'])
     .pipe(gulp.dest('dist'));
+
+  var copyIndex = gulp.src(['src/client/**/*.html', '!src/client/index.html'])
+    .pipe(gulp.dest('dist/app'));
+
   return [copyJsNPMDependencies, copyIndex];
+});
+
+gulp.task('build:assest', function () {
+  var copyAssest = gulp.src(['src/client/assets/**/*.*'])
+    .pipe(gulp.dest('dist/app/assests'));
+
+  return [copyAssest];
 });
 
 gulp.task('build:app', function () {
