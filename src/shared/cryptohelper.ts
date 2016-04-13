@@ -1,10 +1,10 @@
-import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
+import crypto = require('crypto');
+import jwt = require('jsonwebtoken');
 import configHelper from './confighelper';
 
 class CryptoHelper {
   createJWTToken(objIn) {
-    return jwt.sign(objIn, configHelper.jwtSecret, {expiresIn: 60});
+    return jwt.sign(objIn, configHelper.jwtSecret, {expiresInMinutes: 60});
   }
 
   decodeJwtToken(token) {

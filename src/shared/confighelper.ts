@@ -1,9 +1,5 @@
-/**
- * Created by tungp on 31/03/16.
- */
-
-import nconf from 'nconf';
-import path from 'path';
+import nconf = require('nconf');
+import path = require('path');
 
 class ConfigHelper {
   constructor() {

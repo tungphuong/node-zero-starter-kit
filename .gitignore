@@ -4,3 +4,4 @@
 .idea
 /config/config.dev.json
 /npm-debug.log
+/typings

@@ -1,8 +1,11 @@
-import mysql from 'mysql';
+import mysql = require('mysql');
 import configHelper from '../../shared/confighelper';
 import util from '../../shared/utilhelper';
 
 class dbHelper {
+  private pool:mysql.IPool;
+  private client:mysql.IConnection;
+
   constructor() {
     this.pool = mysql.createPool({
       connectionLimit: 100, //important
@@ -18,10 +21,11 @@ class dbHelper {
   }
 
   openConnection() {
+    console.log(configHelper.db_host);
     return new Promise((resolve, reject)=> {
       this.pool.getConnection((err, conn)=> {
         if (err) {
-          util.getLogger().debug(err);
+          util.Logger.debug(err);
           console.log(err);
           reject(err);
         } else {
@@ -47,7 +51,7 @@ class dbHelper {
           reject(err);
         }
       });
-      util.getLogger().debug(query.sql);
+      util.Logger.debug(query.sql);
     });
   }
 

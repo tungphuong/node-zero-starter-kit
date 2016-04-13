@@ -1,8 +1,12 @@
-import express from 'express';
-import passport from 'passport';
+import express = require('express');
+import passport = require('passport');
 import cryptoHelper from '../../shared/cryptohelper';
 
 let router = express.Router();
+
+router.get('/test', (req, res)=>{
+  res.json({});
+});
 
 router.post('/login', (req, res, next)=> {
   passport.authenticate('local', (err, user, info)=> {
